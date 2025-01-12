@@ -36,6 +36,12 @@ func (s *Store) GetUserEmail(email string) (*types.User, error) {
 	return u, nil
 }
 
+func (s *Store) CreateUser(user types.User) error {
+	query := "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)"
+	_, err := s.db.Exec(query, user.FirstName, user.LastName, user.Email, user.Password)
+	return err
+}
+
 func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
 	user := new(types.User)
 
